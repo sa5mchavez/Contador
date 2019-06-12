@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="pengo" translate="label" sortOrder="100">
+            <label>Pengo</label>
+        </tab>
+        <section id="contador" translate="label" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Contador</label>
+            <tab>pengo</tab>
+            <resource>Pengo_Contador::config</resource>
+            <group id="local" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Configuration</label>
+
+                <field id="active" translate="label comment" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Enable/Disabled Module]]></comment>
+                </field>
+                <field id="liga" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Link Promocion</label>
+                    <comment>Ej: http://liga.promocion</comment>
+                </field>
+                <field id="fecha" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Fecha Fin</label>
+                    <comment>Fecha limite del contador (a las 12:00 am del dia seleccionado terminara de contar)</comment>
+                    <frontend_model>Pengo\Contador\Block\DatePicker</frontend_model>
+                </field>
+                <field id="custom_file_upload" translate="label" type="Magento\Config\Block\System\Config\Form\Field\File" sortOrder="6" showInDefault="1" showInWebsite="1" >
+                    <label>Banner</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\File</backend_model>
+                    <upload_dir config="system" scope_info="1">banner</upload_dir>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

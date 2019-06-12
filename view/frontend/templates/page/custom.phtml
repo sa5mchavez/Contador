@@ -1,0 +1,79 @@
+<?php 
+
+function getFormatFecha($fecha)
+{
+    $f = explode("/",$fecha);
+    $fecha = $f[2]."-".$f[1]."-".$f[0];
+    return $fecha;
+}
+
+
+$active = intval($this->helper("Pengo\Contador\Helper\Data")->getConfig("contador/local/active"));
+$fecha = $this->helper("Pengo\Contador\Helper\Data")->getConfig("contador/local/fecha");
+$liga = $this->helper("Pengo\Contador\Helper\Data")->getConfig("contador/local/liga");
+$banner=$this->helper("Pengo\Contador\Helper\Data")->getConfig("contador/local/custom_file_upload");
+
+
+
+if( $active == 1 && strcmp($fecha,'')!=0 && strcmp($liga,'')!=0 ){
+
+    $fechaFin = date("F j Y",strtotime(getFormatFecha($fecha)));
+  
+?>
+
+<div id="contador">
+
+</div>
+
+
+<script>
+
+let fechaFin='<?php echo $fechaFin?>';
+let url='<?php echo $this->getUrl('pub/media/banner/').$banner;?>';
+
+const getRemainingTime = deadline => {
+  
+  let now = new Date(),
+      remainTime = (new Date(deadline) - now + 1000) / 1000,
+      remainSeconds = ('0' + Math.floor(remainTime % 60)).slice(-2),
+      remainMinutes = ('0' + Math.floor(remainTime / 60 % 60)).slice(-2),
+      remainHours = ('0' + Math.floor(remainTime / 3600 % 24)).slice(-2),
+      remainDays = Math.floor(remainTime / (3600 * 24));
+
+  return {
+    remainSeconds,
+    remainMinutes,
+    remainHours,
+    remainDays,
+    remainTime
+  }
+};
+
+const countdown = (deadline,elem,finalMessage) => {
+  const el = document.getElementById(elem);
+
+  const timerUpdate = setInterval( () => {
+    let t = getRemainingTime(deadline);
+    //el.innerHTML = `${t.remainDays} dias : ${t.remainHours} horas :${t.remainMinutes}m: ${t.remainSeconds}s`;
+    el.innerHTML = `<img src="${url}">
+    Quedan ${t.remainDays} dias y ${t.remainHours} horas : ${t.remainMinutes}m : ${t.remainSeconds}s   <a href="<?php echo $liga;?>">Ir ya</a>`;
+
+    if(t.remainTime <= 1) {
+      clearInterval(timerUpdate);
+      el.innerHTML = finalMessage;
+    }
+
+  }, 1000)
+};
+
+//mes dia anio
+//countdown('10-04-2019', 'clock', '¡Ya empezo!');
+countdown(fechaFin, 'contador', '¡Las ofertas han terminado!');
+//countdown('Dec 31 2025 21:34:40 GMT-0500', 'clock', '¡Ya empezó!');
+
+
+
+</script>
+
+
+<?php } ?>
